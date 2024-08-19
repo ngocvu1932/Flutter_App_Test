@@ -1,4 +1,4 @@
-import 'package:flutter_application_1/login/data.dart';
+import 'package:flutter_application_1/views/screens/login/data.dart';
 import 'package:get/get.dart';
 
 class UserController extends GetxController {

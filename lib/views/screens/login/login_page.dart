@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/controller/user_controller.dart';
-import 'package:flutter_application_1/dashboard/dashboard_page.dart';
-import 'package:flutter_application_1/login/components/text_input.dart';
-import 'package:flutter_application_1/login/data.dart';
+import 'package:flutter_application_1/views/screens/dashboard/dashboard_page.dart';
+import 'package:flutter_application_1/views/screens/login/components/text_input.dart';
+import 'package:flutter_application_1/views/screens/login/data.dart';
 import 'package:get/get.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,24 +13,21 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController accountController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  bool isRemember = false;
-  bool isPasswordVisible = false;
-
   final UserController userController = Get.put(UserController());
+  final TextEditingController _accountController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool _isRemember = false;
+  final bool _isPasswordVisible = false;
 
   void _handleLogin(BuildContext context) {
-    final String account = accountController.text;
-    final String password = passwordController.text;
+    final String account = _accountController.text;
+    final String password = _passwordController.text;
     bool isAuth = false;
 
     for (var user in mockData) {
       if (user.phoneNumber == account && user.password == password) {
         isAuth = true;
-
         userController.setUser(user);
-
         break;
       }
     }
@@ -40,7 +37,11 @@ class _LoginPageState extends State<LoginPage> {
           MaterialPageRoute(builder: (context) => const DashboardPage()));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Sai số điện thoại hoặc mật khẩu')),
+        const SnackBar(
+            content: Center(
+          child: Text('Sai số điện thoại hoặc mật khẩu',
+              style: TextStyle(color: Colors.red)),
+        )),
       );
     }
   }
@@ -133,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                           children: [
                             // phone number
                             TextFormField(
-                              controller: accountController,
+                              controller: _accountController,
                               decoration: InputDecoration(
                                 prefixIcon: Padding(
                                   padding: const EdgeInsets.all(12.0),
@@ -171,18 +172,18 @@ class _LoginPageState extends State<LoginPage> {
                             const SizedBox(height: 16),
                             TextInput(
                                 password: 'Password',
-                                passwordController: passwordController,
-                                isPasswordVisible: isPasswordVisible),
+                                passwordController: _passwordController,
+                                isPasswordVisible: _isPasswordVisible),
                           ],
                         )),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Checkbox(
-                          value: isRemember,
+                          value: _isRemember,
                           onChanged: (bool? value) {
                             setState(() {
-                              isRemember = value ?? false;
+                              _isRemember = value ?? false;
                             });
                           },
                           activeColor: Colors.red,
@@ -190,7 +191,7 @@ class _LoginPageState extends State<LoginPage> {
                         TextButton(
                           onPressed: () => {
                             setState(() {
-                              isRemember = !isRemember;
+                              _isRemember = !_isRemember;
                             })
                           },
                           child: const Text('Remember me',

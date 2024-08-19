@@ -22,11 +22,11 @@ class _TextInputState extends State<TextInput> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.passwordController,
-      obscureText: widget.isPasswordVisible,
+      obscureText: !widget.isPasswordVisible,
       decoration: InputDecoration(
         prefixIcon: const Icon(Icons.lock),
         suffixIcon: IconButton(
-          icon: Icon(widget.isPasswordVisible
+          icon: Icon(!widget.isPasswordVisible
               ? Icons.visibility_off
               : Icons.visibility),
           onPressed: () => {
