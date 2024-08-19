@@ -27,8 +27,10 @@ class _LoginFormState extends State<LoginForm> {
         if (state is LoginFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-                content: Text(state.error,
-                    style: const TextStyle(color: Colors.red))),
+                content: Center(
+              child:
+                  Text(state.error, style: const TextStyle(color: Colors.red)),
+            )),
           );
         } else if (state is LoginSuccess) {
           Navigator.pushReplacement(
@@ -181,7 +183,6 @@ class _LoginFormState extends State<LoginForm> {
                       final account = _accountController.text.trim();
                       final password = _passwordController.text.trim();
 
-                      // Gửi event khi bấm đăng nhập
                       context.read<LoginBloc>().add(
                             LoginButtonPressed(
                                 phoneNumber: account, password: password),
@@ -196,7 +197,8 @@ class _LoginFormState extends State<LoginForm> {
                       minimumSize: const Size(double.infinity, 0),
                     ),
                     child: state is LoginLoading
-                        ? const CircularProgressIndicator(color: Colors.white)
+                        ? const CircularProgressIndicator(
+                            color: Colors.white, strokeWidth: 4)
                         : const Text('Sign In',
                             style: TextStyle(
                                 fontSize: 16,
