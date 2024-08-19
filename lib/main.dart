@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/views/screens/login/login_page.dart';
+import 'package:flutter_application_1/views/screens/login/login_screen.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 void main() => runApp(const MyApp());
@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const GetMaterialApp(
       // title: 'Welcome to Flutter',
-      home: LoginPage(),
+      home: LoginScreen(),
     );
   }
 }

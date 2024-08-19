@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/controller/user_controller.dart';
-import 'package:flutter_application_1/views/screens/login/login_page.dart';
-import 'package:get/get.dart';
+import 'package:flutter_application_1/views/screens/login/login_screen.dart';
+import 'package:flutter_application_1/views/screens/login/user.dart';
 
 class DashboardPage extends StatefulWidget {
-  const DashboardPage({super.key});
+  final User user;
+
+  const DashboardPage({super.key, required this.user});
 
   @override
   State<DashboardPage> createState() => _DashboardPageState();
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  final UserController userController = Get.put(UserController());
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,16 +23,16 @@ class _DashboardPageState extends State<DashboardPage> {
         height: double.infinity,
         child: Column(
           children: [
-            Text(userController.currentUser.value!.name),
-            Text(userController.currentUser.value!.email),
-            Text(userController.currentUser.value!.address),
-            Text(userController.currentUser.value!.phoneNumber),
+            Text(widget.user.name),
+            Text(widget.user.email),
+            Text(widget.user.address),
+            Text(widget.user.phoneNumber),
             TextButton(
                 onPressed: () => {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const LoginPage()))
+                              builder: (context) => const LoginScreen()))
                     },
                 child: const Text('Logout'))
           ],
