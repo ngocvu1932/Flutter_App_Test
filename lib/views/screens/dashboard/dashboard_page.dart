@@ -23,10 +23,10 @@ class _DashboardPageState extends State<DashboardPage> {
         height: double.infinity,
         child: Column(
           children: [
-            Text(widget.user.name),
-            Text(widget.user.email),
-            Text(widget.user.address),
             Text(widget.user.phoneNumber),
+            Text(widget.user.name ?? ''),
+            Text(widget.user.email ?? ''),
+            Text(widget.user.address ?? ''),
             TextButton(
                 onPressed: () => {
                       Navigator.pushReplacement(

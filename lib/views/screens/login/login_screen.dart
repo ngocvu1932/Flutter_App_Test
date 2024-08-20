@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/views/screens/login/bloc_login/login_bloc.dart';
 import 'package:flutter_application_1/views/screens/login/bloc_login/login_form.dart';
+import 'package:flutter_application_1/views/screens/login/bloc_login/register_form.dart';
+import 'package:flutter_application_1/views/screens/login/widget_current.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -12,11 +14,44 @@ class LoginScreen extends StatefulWidget {
 
 class LoginScreenState extends State<LoginScreen> {
   bool isShowModalFinger = false;
+  WidgetCurrent currentWidget = WidgetCurrent.login;
 
   void _toggleModalFinger() {
     setState(() {
       isShowModalFinger = !isShowModalFinger;
     });
+  }
+
+  void _setCurrentWidget(WidgetCurrent widget) {
+    setState(() {
+      currentWidget = widget;
+    });
+  }
+
+  Widget _currentWidget() {
+    switch (currentWidget) {
+      case WidgetCurrent.login:
+        return LoginForm(
+          onFingerprintPressed: _toggleModalFinger,
+          state: _setCurrentWidget,
+        );
+      case WidgetCurrent.register:
+        return RegisterForm(state: _setCurrentWidget);
+      // case WidgetCurrent.confirmOTP:
+      //   return LoginForm(
+      //     onFingerprintPressed: _toggleModalFinger,
+      //   );
+      // case WidgetCurrent.createPassword:
+      //   return LoginForm(
+      //     onFingerprintPressed: _toggleModalFinger,
+      //   );
+
+      default:
+        return LoginForm(
+          onFingerprintPressed: _toggleModalFinger,
+          state: _setCurrentWidget,
+        );
+    }
   }
 
   @override
@@ -66,18 +101,15 @@ class LoginScreenState extends State<LoginScreen> {
             child: BlocProvider(
               create: (context) => LoginBloc(),
               child: Container(
-                // height: screenHeight * 0.45,
-                padding: const EdgeInsets.all(12.0),
-                margin: EdgeInsets.only(
-                    left: 12.0, right: 12.0, top: screenHeight * 0.1),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: LoginForm(
-                  onFingerprintPressed: _toggleModalFinger,
-                ),
-              ),
+                  // height: screenHeight * 0.45,
+                  padding: const EdgeInsets.all(12.0),
+                  margin: EdgeInsets.only(
+                      left: 12.0, right: 12.0, top: screenHeight * 0.1),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: _currentWidget()),
             ),
           ),
           isShowModalFinger

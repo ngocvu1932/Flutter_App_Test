@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/views/screens/dashboard/dashboard_page.dart';
+import 'package:flutter_application_1/views/screens/login/widget_current.dart';
 import 'package:flutter_application_1/views/widgets/textinput/text_input.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'login_bloc.dart';
@@ -8,14 +9,16 @@ import 'login_state.dart';
 
 class LoginForm extends StatefulWidget {
   final VoidCallback onFingerprintPressed;
-  const LoginForm({super.key, required this.onFingerprintPressed});
+  final void Function(WidgetCurrent) state;
+  const LoginForm(
+      {super.key, required this.onFingerprintPressed, required this.state});
 
   @override
   LoginFormState createState() => LoginFormState();
 }
 
 class LoginFormState extends State<LoginForm> {
-  final TextEditingController _accountController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = true;
   bool _isRemember = false;
@@ -119,7 +122,7 @@ class LoginFormState extends State<LoginForm> {
                                 ),
                               ),
                             ),
-                            controllers: _accountController),
+                            controllers: _phoneNumberController),
                         const SizedBox(height: 16),
                         TextInput(
                           labelText: 'Password',
@@ -182,7 +185,7 @@ class LoginFormState extends State<LoginForm> {
                   margin: const EdgeInsets.only(top: 1.0),
                   child: ElevatedButton(
                     onPressed: () {
-                      final account = _accountController.text.trim();
+                      final account = _phoneNumberController.text.trim();
                       final password = _passwordController.text.trim();
 
                       context.read<LoginBloc>().add(
@@ -208,13 +211,15 @@ class LoginFormState extends State<LoginForm> {
                                 fontWeight: FontWeight.w400)),
                   ),
                 ),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Do not have an account?'),
+                    const Text('Do not have an account?'),
                     TextButton(
-                        onPressed: null,
-                        child: Text('Sign Up',
+                        onPressed: () {
+                          widget.state(WidgetCurrent.register);
+                        },
+                        child: const Text('Sign Up',
                             style: TextStyle(
                                 color: Colors.red,
                                 decoration: TextDecoration.underline,
@@ -224,42 +229,6 @@ class LoginFormState extends State<LoginForm> {
               ],
             ),
           );
-          // Column(
-          //   children: [
-          //     TextFormField(
-          //       controller: _accountController,
-          //       decoration: InputDecoration(
-          //         labelText: 'Enter your phone number',
-          //         border: OutlineInputBorder(
-          //             borderRadius: BorderRadius.circular(12)),
-          //       ),
-          //     ),
-          //     const SizedBox(height: 16),
-          //     TextFormField(
-          //       controller: _passwordController,
-          //       decoration: InputDecoration(
-          //         labelText: 'Enter your password',
-          //         border: OutlineInputBorder(
-          //             borderRadius: BorderRadius.circular(12)),
-          //       ),
-          //       obscureText: true,
-          //     ),
-          //     const SizedBox(height: 16),
-          //     ElevatedButton(
-          //       onPressed: () {
-          //         context.read<LoginBloc>().add(
-          //               LoginButtonPressed(
-          //                 username: _accountController.text,
-          //                 password: _passwordController.text,
-          //                 userController: userController,
-          //               ),
-          //             );
-          //       },
-          //       child: const Text('Sign In'),
-          //     ),
-          //     if (state is LoginLoading) const CircularProgressIndicator(),
-          //   ],
-          // );
         },
       ),
     );

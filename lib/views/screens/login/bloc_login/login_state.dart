@@ -27,3 +27,19 @@ class LoginFailure extends LoginState {
   @override
   List<Object> get props => [error];
 }
+
+// Get OTP
+
+class GetOTPLoading extends LoginState {}
+
+class GetOTPInitial extends LoginState {}
+
+class GetOTPCodeSuccess extends LoginState {}
+
+class GetOTPCodeFailure extends LoginState {
+  final String error;
+  const GetOTPCodeFailure({required this.error});
+
+  @override
+  List<Object> get props => [error];
+}

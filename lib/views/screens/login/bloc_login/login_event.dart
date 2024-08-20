@@ -16,3 +16,12 @@ class LoginButtonPressed extends LoginEvent {
   @override
   List<Object> get props => [phoneNumber, password];
 }
+
+class GetOTPCodeButtonPressed extends LoginEvent {
+  final String phoneNumber;
+
+  const GetOTPCodeButtonPressed({required this.phoneNumber});
+
+  @override
+  List<Object> get props => [phoneNumber];
+}
