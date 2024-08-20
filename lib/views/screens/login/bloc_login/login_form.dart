@@ -7,14 +7,14 @@ import 'login_event.dart';
 import 'login_state.dart';
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
+  final VoidCallback onFingerprintPressed;
+  const LoginForm({super.key, required this.onFingerprintPressed});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _LoginFormState createState() => _LoginFormState();
+  LoginFormState createState() => LoginFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class LoginFormState extends State<LoginForm> {
   final TextEditingController _accountController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = true;
@@ -71,7 +71,9 @@ class _LoginFormState extends State<LoginForm> {
                     Positioned(
                         right: 0,
                         child: InkWell(
-                          onTap: () => {print('Close')},
+                          onTap: () => {
+                            widget.onFingerprintPressed(),
+                          },
                           child: Container(
                             width: 45,
                             height: 45,

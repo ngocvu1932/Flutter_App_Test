@@ -32,7 +32,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const LoginScreen()))
+                              builder: (context) => LoginScreen()))
                     },
                 child: const Text('Logout'))
           ],
