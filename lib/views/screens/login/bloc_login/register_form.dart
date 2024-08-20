@@ -16,12 +16,13 @@ class RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterForm> {
   final TextEditingController _phoneNumberController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<GetOTPBloc, LoginState>(
       listener: (context, state) {
         if (state is GetOTPCodeSuccess) {
-          print('Get OTP code success');
+          widget.state(WidgetCurrent.confirmOTP);
         } else if (state is GetOTPCodeFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

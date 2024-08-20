@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/views/screens/login/bloc_login/confirm_otp_form.dart';
 import 'package:flutter_application_1/views/screens/login/bloc_login/login_bloc.dart';
 import 'package:flutter_application_1/views/screens/login/bloc_login/login_form.dart';
 import 'package:flutter_application_1/views/screens/login/bloc_login/register_form.dart';
@@ -37,10 +38,8 @@ class LoginScreenState extends State<LoginScreen> {
         );
       case WidgetCurrent.register:
         return RegisterForm(state: _setCurrentWidget);
-      // case WidgetCurrent.confirmOTP:
-      //   return LoginForm(
-      //     onFingerprintPressed: _toggleModalFinger,
-      //   );
+      case WidgetCurrent.confirmOTP:
+        return ConfirmOtpForm(state: _setCurrentWidget);
       // case WidgetCurrent.createPassword:
       //   return LoginForm(
       //     onFingerprintPressed: _toggleModalFinger,
