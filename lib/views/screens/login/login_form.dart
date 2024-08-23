@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/views/screens/dashboard/dashboard_page.dart';
-import 'package:flutter_application_1/views/screens/login/widget_current.dart';
+import 'package:flutter_application_1/views/screens/login/bloc/login_bloc.dart';
 import 'package:flutter_application_1/views/widgets/textinput/text_input.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'login_bloc.dart';
-import 'login_event.dart';
-import 'login_state.dart';
 
 class LoginForm extends StatefulWidget {
   final VoidCallback onFingerprintPressed;
-  final void Function(WidgetCurrent) state;
-  const LoginForm(
-      {super.key, required this.onFingerprintPressed, required this.state});
+  const LoginForm({super.key, required this.onFingerprintPressed});
 
   @override
   LoginFormState createState() => LoginFormState();
@@ -27,19 +22,12 @@ class LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
-        if (state is LoginFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content: Center(
-              child:
-                  Text(state.error, style: const TextStyle(color: Colors.red)),
-            )),
-          );
-        } else if (state is LoginSuccess) {
+        if (state is LoginSuccess) {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) => DashboardPage(user: state.user)),
+              builder: (context) => DashboardPage(user: state.user),
+            ),
           );
         }
       },
@@ -217,7 +205,7 @@ class LoginFormState extends State<LoginForm> {
                     const Text('Do not have an account?'),
                     TextButton(
                         onPressed: () {
-                          widget.state(WidgetCurrent.register);
+                          context.read<LoginBloc>().add(ShowRegisterEvent());
                         },
                         child: const Text('Sign Up',
                             style: TextStyle(

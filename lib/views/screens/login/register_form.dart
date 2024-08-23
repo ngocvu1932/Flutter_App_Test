@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/views/screens/login/bloc_login/login_bloc.dart';
-import 'package:flutter_application_1/views/screens/login/bloc_login/login_event.dart';
-import 'package:flutter_application_1/views/screens/login/bloc_login/login_state.dart';
-import 'package:flutter_application_1/views/screens/login/widget_current.dart';
+import 'package:flutter_application_1/views/screens/login/bloc/login_bloc.dart';
+// import 'package:flutter_application_1/views/screens/login/bloc_login/login_bloc.dart';
+// import 'package:flutter_application_1/views/screens/login/bloc_login/login_event.dart';
+// import 'package:flutter_application_1/views/screens/login/bloc_login/login_state.dart';
+// import 'package:flutter_application_1/views/screens/login/widget_current.dart';
 import 'package:flutter_application_1/views/widgets/textinput/text_input.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegisterForm extends StatefulWidget {
-  final void Function(WidgetCurrent) state;
-  const RegisterForm({super.key, required this.state});
+  // final void Function(WidgetCurrent) state;
+  const RegisterForm({super.key});
 
   @override
   State<RegisterForm> createState() => _RegisterFormState();
@@ -19,21 +20,9 @@ class _RegisterFormState extends State<RegisterForm> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<GetOTPBloc, LoginState>(
-      listener: (context, state) {
-        if (state is GetOTPCodeSuccess) {
-          widget.state(WidgetCurrent.confirmOTP);
-        } else if (state is GetOTPCodeFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content: Center(
-              child:
-                  Text(state.error, style: const TextStyle(color: Colors.red)),
-            )),
-          );
-        }
-      },
-      child: BlocBuilder<GetOTPBloc, LoginState>(builder: (context, state) {
+    return BlocListener<LoginBloc, LoginState>(
+      listener: (context, state) {},
+      child: BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
         return Container(
             margin: const EdgeInsets.only(top: 18),
             padding: const EdgeInsets.only(left: 10, right: 10),
@@ -58,7 +47,7 @@ class _RegisterFormState extends State<RegisterForm> {
                       left: 0,
                       child: IconButton(
                         onPressed: () {
-                          widget.state(WidgetCurrent.login);
+                          context.read<LoginBloc>().add(ShowLoginEvent());
                         },
                         icon: const Icon(
                           Icons.arrow_back_ios,
@@ -104,12 +93,11 @@ class _RegisterFormState extends State<RegisterForm> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                      onPressed: () => {
-                            context.read<GetOTPBloc>().add(
-                                GetOTPCodeButtonPressed(
-                                    phoneNumber:
-                                        _phoneNumberController.text.trim()))
-                          },
+                      onPressed: () {
+                        context.read<LoginBloc>().add(ShowConfirmOtpEvent(
+                              phoneNumber: _phoneNumberController.text.trim(),
+                            ));
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red,
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -118,7 +106,7 @@ class _RegisterFormState extends State<RegisterForm> {
                         ),
                         minimumSize: const Size(double.infinity, 0),
                       ),
-                      child: const Text(
+                      child: Text(
                         'Get OTP code',
                         style: TextStyle(color: Colors.white),
                       )),
@@ -131,7 +119,7 @@ class _RegisterFormState extends State<RegisterForm> {
                         style: TextStyle(color: Color(0xFF9E9EA8))),
                     TextButton(
                         onPressed: () {
-                          widget.state(WidgetCurrent.login);
+                          context.read<LoginBloc>().add(ShowLoginEvent());
                         },
                         child: const Text('Sign In',
                             style: TextStyle(
