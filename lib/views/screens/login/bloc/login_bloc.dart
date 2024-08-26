@@ -1,5 +1,5 @@
-import 'package:flutter_application_1/views/screens/login/data.dart';
-import 'package:flutter_application_1/views/screens/login/user.dart';
+import 'package:flutter_application_1/views/screens/login/models/data.dart';
+import 'package:flutter_application_1/views/screens/login/models/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -37,7 +37,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoginButtonPressed>((event, emit) async {
       emit(LoginLoading());
 
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 2));
 
       User? user;
 
@@ -52,7 +52,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       if (user != null) {
         emit(LoginSuccess(user));
       } else {
-        emit(LoginFailure('Sai số điện thoại hoặc mật khẩu'));
+        emit(const LoginFailure('Sai số điện thoại hoặc mật khẩu'));
       }
     });
 

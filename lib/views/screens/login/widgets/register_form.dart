@@ -106,7 +106,7 @@ class _RegisterFormState extends State<RegisterForm> {
                         ),
                         minimumSize: const Size(double.infinity, 0),
                       ),
-                      child: Text(
+                      child: const Text(
                         'Get OTP code',
                         style: TextStyle(color: Colors.white),
                       )),

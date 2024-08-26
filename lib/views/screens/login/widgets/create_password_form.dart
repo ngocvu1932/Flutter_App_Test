@@ -12,8 +12,8 @@ class CreatePasswordForm extends StatefulWidget {
 }
 
 class _CreatePasswordFormState extends State<CreatePasswordForm> {
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _prePasswordController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _prePasswordController = TextEditingController();
   var _isShowPassword = false;
 
   @override
@@ -30,7 +30,7 @@ class _CreatePasswordFormState extends State<CreatePasswordForm> {
               children: [
                 Container(
                   padding: const EdgeInsets.only(top: 18, bottom: 18),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       'Create Password',
                       style: TextStyle(
@@ -45,10 +45,10 @@ class _CreatePasswordFormState extends State<CreatePasswordForm> {
                   left: 0,
                   child: IconButton(
                       onPressed: () {
-                        context.read<LoginBloc>().add(
-                            ShowConfirmOtpEvent(phoneNumber: '0333456543'));
+                        context.read<LoginBloc>().add(const ShowConfirmOtpEvent(
+                            phoneNumber: '0333456543'));
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.arrow_back_ios,
                         color: Colors.red,
                         size: 20,
@@ -60,7 +60,7 @@ class _CreatePasswordFormState extends State<CreatePasswordForm> {
               padding: const EdgeInsets.all(10.0),
               child: TextInput(
                   controllers: _passwordController,
-                  prefixIcon: Icon(Icons.lock_open),
+                  prefixIcon: const Icon(Icons.lock_open),
                   obscureText: !_isShowPassword,
                   suffixIcon: IconButton(
                     onPressed: () {
@@ -69,8 +69,8 @@ class _CreatePasswordFormState extends State<CreatePasswordForm> {
                       });
                     },
                     icon: _isShowPassword
-                        ? Icon(Icons.visibility)
-                        : Icon(Icons.visibility_off),
+                        ? const Icon(Icons.visibility)
+                        : const Icon(Icons.visibility_off),
                   ),
                   labelText: 'Enter your password'),
             ),
@@ -78,7 +78,7 @@ class _CreatePasswordFormState extends State<CreatePasswordForm> {
               padding: const EdgeInsets.all(10),
               child: TextInput(
                   controllers: _prePasswordController,
-                  prefixIcon: Icon(Icons.lock_open),
+                  prefixIcon: const Icon(Icons.lock_open),
                   obscureText: !_isShowPassword,
                   suffixIcon: IconButton(
                     onPressed: () {
@@ -87,18 +87,18 @@ class _CreatePasswordFormState extends State<CreatePasswordForm> {
                       });
                     },
                     icon: _isShowPassword
-                        ? Icon(Icons.visibility)
-                        : Icon(Icons.visibility_off),
+                        ? const Icon(Icons.visibility)
+                        : const Icon(Icons.visibility_off),
                   ),
                   labelText: 'Re-enter your password'),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Container(
               width: double.infinity,
               padding: const EdgeInsets.only(left: 10),
               child: RichText(
                   textAlign: TextAlign.left,
-                  text: TextSpan(children: [
+                  text: const TextSpan(children: [
                     TextSpan(
                       text: 'Password must contain: \n',
                       style: TextStyle(
@@ -177,7 +177,7 @@ class _CreatePasswordFormState extends State<CreatePasswordForm> {
                     ),
                   ])),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -190,13 +190,14 @@ class _CreatePasswordFormState extends State<CreatePasswordForm> {
                     minimumSize: const Size(double.infinity, 0),
                   ),
                   onPressed: () {
-                    if (state is CreatePasswordState)
+                    if (state is CreatePasswordState) {
                       context.read<LoginBloc>().add(CreatePasswordPressed(
                           phoneNumber: state.phoneNumber,
                           password: _passwordController.text.trim(),
                           passwordConfirm: _prePasswordController.text.trim()));
+                    }
                   },
-                  child: Text(
+                  child: const Text(
                     'Create Password',
                     style: TextStyle(
                         color: Colors.white,

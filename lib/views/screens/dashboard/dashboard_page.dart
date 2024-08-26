@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/views/screens/login/login_screen.dart';
-import 'package:flutter_application_1/views/screens/login/user.dart';
+import 'package:flutter_application_1/views/screens/login/models/user.dart';
 
 class DashboardPage extends StatefulWidget {
   final User user;
@@ -32,7 +32,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => LoginScreen()))
+                              builder: (context) => const LoginScreen()))
                     },
                 child: const Text('Logout'))
           ],

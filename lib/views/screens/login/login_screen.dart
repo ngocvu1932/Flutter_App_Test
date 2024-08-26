@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/views/screens/login/bloc/login_bloc.dart';
-import 'package:flutter_application_1/views/screens/login/confirm_otp_form.dart';
-import 'package:flutter_application_1/views/screens/login/create_password_form.dart';
-import 'package:flutter_application_1/views/screens/login/login_form.dart';
-import 'package:flutter_application_1/views/screens/login/register_form.dart';
+import 'package:flutter_application_1/views/screens/login/widgets/confirm_otp_form.dart';
+import 'package:flutter_application_1/views/screens/login/widgets/create_password_form.dart';
+import 'package:flutter_application_1/views/screens/login/widgets/login_form.dart';
+import 'package:flutter_application_1/views/screens/login/widgets/register_form.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -26,11 +26,11 @@ class LoginScreenState extends State<LoginScreen> {
     return BlocBuilder<LoginBloc, LoginState>(
       builder: (context, state) {
         if (state is RegisterState) {
-          return RegisterForm();
+          return const RegisterForm();
         } else if (state is ConfirmOtpState) {
-          return ConfirmOtpForm();
+          return const ConfirmOtpForm();
         } else if (state is CreatePasswordState) {
-          return CreatePasswordForm();
+          return const CreatePasswordForm();
         } else {
           return LoginForm(onFingerprintPressed: _toggleModalFinger);
         }

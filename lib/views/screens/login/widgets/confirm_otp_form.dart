@@ -159,9 +159,10 @@ class _ConfirmOtpFormState extends State<ConfirmOtpForm> {
                 width: double.infinity,
                 child: ElevatedButton(
                     onPressed: () {
-                      if (state is ConfirmOtpState)
+                      if (state is ConfirmOtpState) {
                         context.read<LoginBloc>().add(ShowCreatePasswordEvent(
                             phoneNumber: state.phoneNumber));
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,

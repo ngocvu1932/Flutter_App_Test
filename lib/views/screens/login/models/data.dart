@@ -1,4 +1,4 @@
-import 'package:flutter_application_1/views/screens/login/user.dart';
+import 'package:flutter_application_1/views/screens/login/models/user.dart';
 
 List<User> mockData = [
   User(
