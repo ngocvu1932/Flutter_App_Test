@@ -25,11 +25,11 @@ class LoginScreenState extends State<LoginScreen> {
   Widget _currentWidget(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(
       builder: (context, state) {
-        if (state is RegisterState) {
+        if (state.widgetStatePage == WidgetStatePage.register) {
           return const RegisterForm();
-        } else if (state is ConfirmOtpState) {
+        } else if (state.widgetStatePage == WidgetStatePage.confirmOtp) {
           return const ConfirmOtpForm();
-        } else if (state is CreatePasswordState) {
+        } else if (state.widgetStatePage == WidgetStatePage.createPassword) {
           return const CreatePasswordForm();
         } else {
           return LoginForm(onFingerprintPressed: _toggleModalFinger);
@@ -81,19 +81,16 @@ class LoginScreenState extends State<LoginScreen> {
           ),
         ),
         Center(
-          child: BlocProvider(
-            create: (context) => LoginBloc(),
-            child: Container(
-                // height: screenHeight * 0.45,
-                padding: const EdgeInsets.all(12.0),
-                margin: EdgeInsets.only(
-                    left: 12.0, right: 12.0, top: screenHeight * 0.1),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: _currentWidget(context)),
-          ),
+          child: Container(
+              // height: screenHeight * 0.45,
+              padding: const EdgeInsets.all(12.0),
+              margin: EdgeInsets.only(
+                  left: 12.0, right: 12.0, top: screenHeight * 0.1),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: _currentWidget(context)),
         ),
         isShowModalFinger
             ? GestureDetector(

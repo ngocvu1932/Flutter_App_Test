@@ -21,7 +21,17 @@ class _RegisterFormState extends State<RegisterForm> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, LoginState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state.isError == true) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(
+                content: Center(
+              child: Text(state.messageState,
+                  style: const TextStyle(color: Colors.red)),
+            )));
+        }
+      },
       child: BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
         return Container(
             margin: const EdgeInsets.only(top: 18),
@@ -93,11 +103,14 @@ class _RegisterFormState extends State<RegisterForm> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                      onPressed: () {
-                        context.read<LoginBloc>().add(ShowConfirmOtpEvent(
-                              phoneNumber: _phoneNumberController.text.trim(),
-                            ));
-                      },
+                      onPressed: state.isLoading == true
+                          ? null
+                          : () {
+                              context.read<LoginBloc>().add(ShowConfirmOtpEvent(
+                                  phoneNumber:
+                                      _phoneNumberController.text.trim(),
+                                  isBack: false));
+                            },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red,
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -106,10 +119,13 @@ class _RegisterFormState extends State<RegisterForm> {
                         ),
                         minimumSize: const Size(double.infinity, 0),
                       ),
-                      child: const Text(
-                        'Get OTP code',
-                        style: TextStyle(color: Colors.white),
-                      )),
+                      child: state.isLoading == true
+                          ? const CircularProgressIndicator(
+                              color: Colors.white, strokeWidth: 4)
+                          : const Text(
+                              'Get OTP code',
+                              style: TextStyle(color: Colors.white),
+                            )),
                 ),
                 const SizedBox(height: 8),
                 Row(

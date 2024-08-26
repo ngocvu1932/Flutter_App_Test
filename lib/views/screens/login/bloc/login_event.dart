@@ -16,15 +16,18 @@ abstract class LoginEvent extends Equatable {
 
 class ShowLoginEvent extends LoginEvent {}
 
+class LogoutEvent extends LoginEvent {}
+
 class ShowRegisterEvent extends LoginEvent {}
 
 class ShowConfirmOtpEvent extends LoginEvent {
   final String phoneNumber;
+  final bool isBack;
 
-  const ShowConfirmOtpEvent({required this.phoneNumber});
+  const ShowConfirmOtpEvent({required this.phoneNumber, required this.isBack});
 
   @override
-  List<Object> get props => [phoneNumber];
+  List<Object> get props => [phoneNumber, isBack];
 }
 
 class ShowCreatePasswordEvent extends LoginEvent {

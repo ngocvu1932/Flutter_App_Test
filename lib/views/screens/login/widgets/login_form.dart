@@ -22,7 +22,24 @@ class LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
-        if (state is LoginSuccess) {
+        if (state.isError == true) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(
+                content: Center(
+              child: Text(state.messageState,
+                  style: const TextStyle(color: Colors.red)),
+            )));
+        }
+
+        if (state.isValidLogin == true) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(
+                content: Center(
+              child: Text(state.messageState,
+                  style: const TextStyle(color: Colors.green)),
+            )));
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -172,15 +189,17 @@ class LoginFormState extends State<LoginForm> {
                 Container(
                   margin: const EdgeInsets.only(top: 1.0),
                   child: ElevatedButton(
-                    onPressed: () {
-                      final account = _phoneNumberController.text.trim();
-                      final password = _passwordController.text.trim();
+                    onPressed: state.isLoading == true
+                        ? null
+                        : () {
+                            final account = _phoneNumberController.text.trim();
+                            final password = _passwordController.text.trim();
 
-                      context.read<LoginBloc>().add(
-                            LoginButtonPressed(
-                                phoneNumber: account, password: password),
-                          );
-                    },
+                            context.read<LoginBloc>().add(
+                                  LoginButtonPressed(
+                                      phoneNumber: account, password: password),
+                                );
+                          },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
                       padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -189,7 +208,7 @@ class LoginFormState extends State<LoginForm> {
                       ),
                       minimumSize: const Size(double.infinity, 0),
                     ),
-                    child: state is LoginLoading
+                    child: state.isLoading == true
                         ? const CircularProgressIndicator(
                             color: Colors.white, strokeWidth: 4)
                         : const Text('Sign In',

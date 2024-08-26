@@ -1,48 +1,65 @@
 part of 'login_bloc.dart';
 
-sealed class LoginState extends Equatable {
-  const LoginState();
+enum WidgetStatePage { login, register, confirmOtp, createPassword }
 
-  @override
-  List<Object> get props => [];
-}
-
-class LoginStatePage extends LoginState {}
-
-class RegisterState extends LoginState {}
-
-class ConfirmOtpState extends LoginState {
+class LoginState extends Equatable {
+  final WidgetStatePage widgetStatePage;
   final String phoneNumber;
-  const ConfirmOtpState(this.phoneNumber);
+  final String password;
+  final bool isValidLogin;
+  final bool isLoading;
+  final bool isError;
+  final String messageState;
+  final bool isCreatePassword;
+  late final User user;
+
+  LoginState({
+    this.widgetStatePage = WidgetStatePage.login,
+    this.phoneNumber = '',
+    this.password = '',
+    this.isValidLogin = false,
+    this.isLoading = false,
+    this.isError = false,
+    this.messageState = '',
+    this.isCreatePassword = false,
+    User? user,
+  }) {
+    this.user = user ?? User(phoneNumber: '', password: '');
+  }
+
+  LoginState copyWith({
+    WidgetStatePage? widgetStatePage,
+    String? phoneNumber,
+    String? password,
+    bool? isValidLogin,
+    bool? isLoading,
+    bool? isError,
+    String? messageState,
+    bool? isCreatePassword,
+    User? user,
+  }) {
+    return LoginState(
+      widgetStatePage: widgetStatePage ?? this.widgetStatePage,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      password: password ?? this.password,
+      isValidLogin: isValidLogin ?? this.isValidLogin,
+      isLoading: isLoading ?? this.isLoading,
+      isError: isError ?? this.isError,
+      messageState: messageState ?? this.messageState,
+      isCreatePassword: isCreatePassword ?? this.isCreatePassword,
+      user: user ?? this.user,
+    );
+  }
 
   @override
-  List<Object> get props => [phoneNumber];
-}
-
-class CreatePasswordState extends LoginState {
-  final String phoneNumber;
-  const CreatePasswordState(this.phoneNumber);
-
-  @override
-  List<Object> get props => [phoneNumber];
-}
-
-final class LoginInitial extends LoginState {}
-
-final class LoginLoading extends LoginState {}
-
-final class LoginSuccess extends LoginState {
-  final User user;
-  const LoginSuccess(this.user);
-
-  @override
-  List<Object> get props => [user];
-}
-
-final class LoginFailure extends LoginState {
-  final String error;
-  const LoginFailure(this.error);
-
-  @override
-  List<Object> get props => [error];
+  List<Object> get props => [
+        widgetStatePage,
+        phoneNumber,
+        password,
+        isValidLogin,
+        isLoading,
+        isError,
+        messageState,
+        isCreatePassword
+      ];
 }

@@ -4,7 +4,6 @@ import 'package:flutter_application_1/views/widgets/textinput/text_input.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CreatePasswordForm extends StatefulWidget {
-  // final void Function(WidgetCurrent) state;
   const CreatePasswordForm({super.key});
 
   @override
@@ -18,9 +17,28 @@ class _CreatePasswordFormState extends State<CreatePasswordForm> {
 
   @override
   Widget build(BuildContext context) {
-    print(_isShowPassword);
     return BlocListener<LoginBloc, LoginState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state.isError == true) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(
+                content: Center(
+              child: Text(state.messageState,
+                  style: const TextStyle(color: Colors.red)),
+            )));
+        }
+
+        if (state.isCreatePassword == true) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(
+                content: Center(
+              child: Text(state.messageState,
+                  style: const TextStyle(color: Colors.green)),
+            )));
+        }
+      },
       child: BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
         return Column(
           mainAxisSize: MainAxisSize.min,
@@ -45,8 +63,8 @@ class _CreatePasswordFormState extends State<CreatePasswordForm> {
                   left: 0,
                   child: IconButton(
                       onPressed: () {
-                        context.read<LoginBloc>().add(const ShowConfirmOtpEvent(
-                            phoneNumber: '0333456543'));
+                        context.read<LoginBloc>().add(ShowConfirmOtpEvent(
+                            phoneNumber: state.phoneNumber, isBack: true));
                       },
                       icon: const Icon(
                         Icons.arrow_back_ios,
@@ -189,21 +207,25 @@ class _CreatePasswordFormState extends State<CreatePasswordForm> {
                     ),
                     minimumSize: const Size(double.infinity, 0),
                   ),
-                  onPressed: () {
-                    if (state is CreatePasswordState) {
-                      context.read<LoginBloc>().add(CreatePasswordPressed(
-                          phoneNumber: state.phoneNumber,
-                          password: _passwordController.text.trim(),
-                          passwordConfirm: _prePasswordController.text.trim()));
-                    }
-                  },
-                  child: const Text(
-                    'Create Password',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400),
-                  )),
+                  onPressed: state.isLoading == true
+                      ? null
+                      : () {
+                          context.read<LoginBloc>().add(CreatePasswordPressed(
+                              phoneNumber: state.phoneNumber,
+                              password: _passwordController.text.trim(),
+                              passwordConfirm:
+                                  _prePasswordController.text.trim()));
+                        },
+                  child: state.isLoading
+                      ? const CircularProgressIndicator(
+                          color: Colors.white, strokeWidth: 4)
+                      : const Text(
+                          'Create Password',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400),
+                        )),
             ),
           ],
         );
